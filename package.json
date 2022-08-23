@@ -1,35 +1,40 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "repository": "https://github.com/grupo-c-tech/discord-bot",
   "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "nodemon src/app.js",
-    "dev:debug": "nodemon --inspect src/server.js",
-    "queue": "nodemon src/queue.js",
-    "lint": "eslint --fix src --ext .js",
+    "dev:debug": "nodemon --inspect src/app.js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
     "madge": "madge --circular ./",
-    "precommit": "yarn format:staged && yarn madge",
-    "format": "prettier \"./**/*.js\" --write",
-    "format:staged": "pretty-quick --staged"
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn madge",
+      "yarn lint:fix"
+    ]
   },
   "dependencies": {
-    "@sentry/node": "^7.11.1",
-    "discord.js": "^14.3.0",
-    "dotenv": "^16.0.1"
+    "@sentry/node": "7.11.1",
+    "discord.js": "14.3.0",
+    "dotenv": "16.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "madge": "^5.0.1",
-    "nodemon": "^2.0.19",
-    "prettier": "^2.7.1",
-    "pretty-quick": "^3.1.3",
-    "sucrase": "^3.25.0"
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "husky": "8.0.1",
+    "lint-staged": "13.0.3",
+    "madge": "5.0.1",
+    "nodemon": "2.0.19",
+    "prettier": "2.7.1",
+    "sucrase": "3.25.0"
   }
 }
