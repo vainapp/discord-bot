@@ -1,9 +1,8 @@
-import { MessageEmbed } from 'discord.js'
 import { prefix } from '../../config/prefix'
 
 class MessageEvent {
   init(client) {
-    client.on('message', async (message) => {
+    client.on('messageCreate', async (message) => {
       if (!message.content.startsWith(prefix) || message.author.bot) return
 
       const args = message.content.slice(prefix.length).trim().split(/ +/)
@@ -11,26 +10,16 @@ class MessageEvent {
 
       if (!client.commands.has(commandName)) {
         message.react('⚠️')
-        message.reply('comando não encontrado!')
+        message.reply('Comando não encontrado!')
         return
       }
 
       try {
         await client.commands.get(commandName).execute(message, args)
       } catch (error) {
-        if (error.name === 'DiscordAPIError') {
-          const embed = new MessageEmbed()
-            .setTitle('Houve um erro ao tentar executar este comando!')
-            .setColor('#7159c1')
-            .setDescription(error.message)
-
-          message.channel.send(embed)
-        } else {
-          console.error(error)
-          message.reply('houve um erro ao tentar executar este comando!')
-        }
-
+        console.error(error)
         message.react('⚠️')
+        message.reply('Houve um erro ao tentar executar este comando!')
         return
       }
 
